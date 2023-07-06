@@ -3,8 +3,8 @@ import chardet
 from flask import Flask, request, render_template, flash
 from werkzeug.utils import secure_filename
 from datetime import datetime
-import pygal
 import pandas as pd
+import pygal
 
 ALLOWED_EXTENTIONS = set(['csv'])
 
@@ -23,14 +23,13 @@ def check_data_integrity(file_path):
 
     data = pd.read_csv(file_path, delimiter=';', encoding=encoding)
 
-    # Ожидаемые столбцы
     expected_columns = ['Title', 'Year', 'Director']
 
     for column in expected_columns:
         if column not in data.columns:
             return False
 
-    # Если все ожидаемые столбцы присутствуют True
+
     return True
 
 def create_app():
@@ -76,4 +75,5 @@ def create_app():
     return app
 
 app = create_app()
-
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=int(os.getenv('PORT', 3000)))
